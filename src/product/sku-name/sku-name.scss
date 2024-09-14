@@ -1,0 +1,16 @@
+@import "../../app";
+
+.button-sku {
+	border-color: $primary-color;
+	border-radius: 25px;
+	border: 1px solid $primary-color;
+	padding: 5px;
+}
+
+.sku-name {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 18.23px;
+	text-align: left;
+	color: $primary-color;
+}

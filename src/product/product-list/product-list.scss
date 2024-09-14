@@ -1,4 +1,51 @@
-$primary-color: #3498db;
+.user-image {
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+}
+
+.lines-container {
+	gap: 2px;
+	display: flex;
+	flex-direction: column;
+}
+
+.buttons-display {
+	display: flex;
+	justify-content: space-evenly;
+	position: absolute;
+	align-items: center;
+	bottom: 0;
+}
+
+.price {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: left;
+}
+
+.card-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.brand-name {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: left;
+	margin-top: -50px;
+	margin-bottom: 10px;
+}
+
+.buttons-position {
+	margin-top: 40px;
+	display: flex;
+	justify-content: space-between;
+}
 
 .hello-title {
 	font-size: 16px;
@@ -32,19 +79,23 @@ $primary-color: #3498db;
 	gap: 20px;
 
 	.product-item {
-		background-color: $primary-color;
-		padding: 15px;
+		background-color: white;
 		border-radius: 5px;
 		text-align: center;
 		transition: transform 0.3s;
+		border: none;
+		width: 155px;
+		height: 214px;
+		position: relative;
 
 		&:hover {
 			transform: scale(1.05);
 		}
 
-		img {
-			max-width: 100%;
-			border-radius: 5px;
+		.image {
+			width: 100px;
+			height: 124px;
+			object-fit: contain;
 		}
 	}
 
@@ -52,10 +103,6 @@ $primary-color: #3498db;
 		.product-list {
 			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 			gap: 10px;
-		}
-
-		.product-item {
-			padding: 10px;
 		}
 	}
 }

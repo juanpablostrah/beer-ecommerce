@@ -1,0 +1,21 @@
+@import "../../app";
+
+.add-to-cart {
+	width: 75%;
+	height: 54px;
+	top: 723px;
+	left: 104px;
+	gap: 0px;
+	border-radius: 12px;
+	opacity: 0px;
+	background-color: $secondary-color;
+	color: white;
+	border: none;
+}
+
+.text {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: center;
+}
