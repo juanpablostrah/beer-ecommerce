@@ -1,3 +1,5 @@
+@import "../../app";
+
 .user-image {
 	width: 40px;
 	height: 40px;
@@ -103,6 +105,38 @@
 			height: 124px;
 			object-fit: contain;
 		}
+	}
+
+	.plus-button {
+		background-color: $secondary-color;
+		border: none;
+		border-radius: 5px;
+		width: 40px;
+		height: 40px;
+		border-radius: 8px 0px 8px 0px;
+		opacity: 0px;
+
+		color: white;
+		font-size: 24px;
+		font-weight: bold;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #e68900;
+		}
+	}
+
+	.plus-sign {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		line-height: 0;
 	}
 
 	@media only screen and (max-width: 768px) {

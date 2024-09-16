@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MenuButton from "../../components/menu-button/MenuButton";
-import PlusButton from "../../components/plus-button/PlusButton";
+import Button from "../../components/button/Button";
 import { HOST } from "../../utils/constants";
 import "./product-list.scss";
 
@@ -44,29 +43,19 @@ const ProductList = () => {
 		navigate(`/product/${id}-${formattedBrand}`);
 	};
 
-	const displayDetails = () => {};
-
 	return (
 		<div className="body-product">
 			<div className="buttons-position">
-				<MenuButton
-					children={
-						<div className="lines-container">
-							<span className="line line-top"></span>
-							<span className="line line-middle"></span>
-							<span className="line line-bottom"></span>
-						</div>
-					}
-				/>
-				<MenuButton
-					children={
-						<img
-							className="user-image"
-							src="/images/icons/User.jpg"
-							alt="user"
-						/>
-					}
-				/>
+				<Button className="button">
+					<div className="lines-container">
+						<span className="line line-top"></span>
+						<span className="line line-middle"></span>
+						<span className="line line-bottom"></span>
+					</div>
+				</Button>
+				<Button className="button">
+					<img className="user-image" src="/images/icons/User.jpg" alt="user" />
+				</Button>
 			</div>
 			<div>
 				<h3 className="hello-title">Hi Mr. Micheal,</h3>
@@ -97,7 +86,9 @@ const ProductList = () => {
 										: "Loading price..."}
 								</span>
 							</div>
-							<PlusButton onClick={() => displayDetails()} />
+							<div className="plus-button">
+								<span className="plus-sign">+</span>
+							</div>
 						</div>
 					</button>
 				))}

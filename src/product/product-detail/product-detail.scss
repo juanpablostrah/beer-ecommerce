@@ -102,3 +102,76 @@
 	text-align: left;
 	color: $primary-color;
 }
+
+.add-to-cart {
+	width: 75%;
+	height: 54px;
+	top: 723px;
+	left: 104px;
+	gap: 0px;
+	border-radius: 12px;
+	opacity: 0px;
+	background-color: $secondary-color;
+	color: white;
+	border: none;
+}
+
+.text {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: center;
+}
+
+.lock-button {
+	background-color: $main-color;
+	color: $secondary-color;
+	border: 1px solid $secondary-color;
+	border-radius: 10px;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.3s, color 0.3s;
+
+	width: 54px;
+	height: 54px;
+	opacity: 0px;
+}
+
+.lock-icon {
+	font-size: 18px;
+}
+
+.button {
+	border: none;
+	border-radius: 50%;
+	background-color: #ffffff;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	cursor: pointer;
+}
+
+.line {
+	background-color: black;
+	display: block;
+	width: 4px;
+	height: 3px;
+}
+
+.line-middle {
+	justify-content: left !important;
+	width: 15px;
+}
+
+.line-top {
+	width: 20px;
+}
+
+.line-bottom {
+	width: 20px;
+}

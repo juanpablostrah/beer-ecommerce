@@ -1,8 +1,8 @@
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import AddToCartButton from "../../components/add-to-cart-button/AddToCartButton";
-import LockButton from "../../components/lock-button/LockButton";
-import MenuButton from "../../components/menu-button/MenuButton";
+import Button from "../../components/button/Button";
 import { HOST } from "../../utils/constants";
 import SkuName from "../sku-name/SkuName";
 import "./product-detail.scss";
@@ -40,6 +40,8 @@ const ProductDetail = () => {
 
 	useEffect(() => {
 		const fetchStockInfo = () => {
+			if (!skuSelected?.code && !initialSkuCode) return;
+
 			fetch(`${HOST}/api/stock-price/${skuSelected?.code || initialSkuCode}`)
 				.then((response) => response.json())
 				.then((stockData) => {
@@ -50,11 +52,12 @@ const ProductDetail = () => {
 				);
 		};
 
-		fetchStockInfo();
-		const interval = setInterval(fetchStockInfo, 5000);
-
-		return () => clearInterval(interval);
-	}, [product, skuSelected, initialSkuCode]);
+		if (skuSelected || initialSkuCode) {
+			fetchStockInfo();
+			const interval = setInterval(fetchStockInfo, 5000);
+			return () => clearInterval(interval);
+		}
+	}, [skuSelected, initialSkuCode]);
 
 	if (!product) return <div>Loading...</div>;
 
@@ -66,21 +69,24 @@ const ProductDetail = () => {
 		setShowFullInformation((prev) => !prev);
 	};
 
+	const handleAddToCart = () => {
+		window.alert(`You add ${product.brand} - ${skuSelected.name} to cart!`);
+	};
+
 	const priceInDollars = stockInfo ? stockInfo.price : "";
 
 	return (
 		<div className="product-detail">
 			<div className="buttons-position">
-				<MenuButton
-					action={handleNavigate}
-					children={
-						<div className="arrow-back">
-							<span className="arrow-left" />
-						</div>
-					}
-				/>
+				<Button className="button" onClick={handleNavigate}>
+					<div className="arrow-back">
+						<span className="arrow-left" />
+					</div>
+				</Button>
 				<span className="detail-title">Detail</span>
-				<MenuButton children={<span className="dots"> ... </span>} />
+				<Button className="button">
+					<span className="dots"> ... </span>
+				</Button>
 			</div>
 			<div className="image-container">
 				<img
@@ -119,8 +125,8 @@ const ProductDetail = () => {
 				<div className="skus-flex">
 					{product.skus?.map((sku) => (
 						<SkuName
-							isSkuSelected={skuSelected?.code === sku.code}
 							key={sku.code}
+							isSkuSelected={skuSelected?.code === sku.code}
 							action={() => handleSkuChange(sku)}
 							name={sku.name}
 						/>
@@ -129,8 +135,12 @@ const ProductDetail = () => {
 			</section>
 
 			<section className="skus-flex m-top">
-				<LockButton />
-				<AddToCartButton brand={product.brand} />
+				<Button iconClassName="lock-icon" className="lock-button">
+					<FontAwesomeIcon icon={faLock} className="lock-icon" />
+				</Button>
+				<Button onClick={handleAddToCart} className="add-to-cart">
+					<span className="text">Add to cart</span>
+				</Button>
 			</section>
 		</div>
 	);
