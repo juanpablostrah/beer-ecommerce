@@ -10,12 +10,17 @@
 	flex-direction: column;
 }
 
+.button-padding {
+	padding-left: 10px;
+}
+
 .buttons-display {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	position: absolute;
 	align-items: center;
 	bottom: 0;
+	width: 100%;
 }
 
 .price {
@@ -75,8 +80,8 @@
 
 .product-list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-	gap: 20px;
+	grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+	gap: 14px;
 
 	.product-item {
 		background-color: white;
@@ -84,9 +89,10 @@
 		text-align: center;
 		transition: transform 0.3s;
 		border: none;
-		width: 155px;
+		width: 100%;
 		height: 214px;
 		position: relative;
+		padding: 0;
 
 		&:hover {
 			transform: scale(1.05);

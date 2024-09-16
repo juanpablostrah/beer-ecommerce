@@ -1,9 +1,12 @@
 import React from "react";
 import "./sku-name.scss";
 
-const SkuName = ({ name, action }) => {
+const SkuName = ({ name, action, isSkuSelected }) => {
 	return (
-		<button onClick={action()} className="button-sku">
+		<button
+			onClick={action}
+			className={`button-sku ${isSkuSelected ? "selected" : ""}`}
+		>
 			<span className="sku-name">{name}</span>
 		</button>
 	);

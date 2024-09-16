@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AddToCartButton from "../../components/add-to-cart-button/AddToCartButton";
 import LockButton from "../../components/lock-button/LockButton";
 import MenuButton from "../../components/menu-button/MenuButton";
+import { HOST } from "../../utils/constants";
 import SkuName from "../sku-name/SkuName";
 import "./product-detail.scss";
 
@@ -12,32 +13,25 @@ const ProductDetail = () => {
 	const [product, setProduct] = useState(null);
 	const [stockInfo, setStockInfo] = useState({});
 	const [showFullInformation, setShowFullInformation] = useState(false);
-
 	const [skuSelected, setSkuSelected] = useState(null);
 
-	console.log("skuSelected: ", skuSelected);
+	const initialSkuCode = product?.skus[0].code;
 
 	const navigate = useNavigate();
 
 	const handleSkuChange = (skuKey) => {
-		console.log("skuKey: ", skuKey);
 		setSkuSelected(skuKey);
 	};
 
 	useEffect(() => {
-		const firstSkuKey = Object.keys(stockInfo)[0];
-		if (firstSkuKey) {
-			const firstSkuObject = stockInfo[firstSkuKey];
-			setSkuSelected(firstSkuObject);
-		}
-	}, [stockInfo]);
-
-	useEffect(() => {
-		fetch("http://localhost:4000/api/products")
+		fetch(`${HOST}/api/products`)
 			.then((response) => response.json())
 			.then((data) => {
 				const foundProduct = data.find((p) => p.id.toString() === productId);
 				setProduct(foundProduct || null);
+				if (foundProduct && foundProduct.skus?.length > 0) {
+					setSkuSelected(foundProduct.skus[0]);
+				}
 			})
 			.catch((error) =>
 				window.alert("Error fetching product details: " + error.message)
@@ -46,28 +40,21 @@ const ProductDetail = () => {
 
 	useEffect(() => {
 		const fetchStockInfo = () => {
-			if (!product?.skus) return; // Asegúrate de que el producto tenga SKUs antes de intentar el fetch
-
-			product.skus.forEach((skuItem) => {
-				fetch(`http://localhost:4000/api/stock/${skuItem.code}`)
-					.then((response) => response.json())
-					.then((data) => {
-						setStockInfo((prevStockInfo) => ({
-							...prevStockInfo,
-							[skuItem.code]: data,
-						}));
-					})
-					.catch((error) =>
-						window.alert("Error fetching stock information: " + error.message)
-					);
-			});
+			fetch(`${HOST}/api/stock-price/${skuSelected?.code || initialSkuCode}`)
+				.then((response) => response.json())
+				.then((stockData) => {
+					setStockInfo({ stock: stockData.stock, price: stockData.price });
+				})
+				.catch((error) =>
+					window.alert("Error fetching stock data: " + error.message)
+				);
 		};
 
 		fetchStockInfo();
 		const interval = setInterval(fetchStockInfo, 5000);
 
 		return () => clearInterval(interval);
-	}, [product]);
+	}, [product, skuSelected, initialSkuCode]);
 
 	if (!product) return <div>Loading...</div>;
 
@@ -79,7 +66,7 @@ const ProductDetail = () => {
 		setShowFullInformation((prev) => !prev);
 	};
 
-	const priceInDollars = (skuSelected?.price / 100).toFixed(2);
+	const priceInDollars = stockInfo ? stockInfo.price : "";
 
 	return (
 		<div className="product-detail">
@@ -98,7 +85,7 @@ const ProductDetail = () => {
 			<div className="image-container">
 				<img
 					className="image-detail"
-					src={`http://localhost:4000${product?.image}`}
+					src={`${HOST}${product?.image}`}
 					alt={product.brand}
 				/>
 			</div>
@@ -111,7 +98,7 @@ const ProductDetail = () => {
 				<span className="stock">
 					<span>Origin: {product.origin}</span>
 					{" | "}
-					<span>Stock: {"ver como mostrar stock"}</span>
+					<span>Stock: {stockInfo.stock}</span>
 				</span>
 			</section>
 			<section>
@@ -131,14 +118,19 @@ const ProductDetail = () => {
 				<h3>Size</h3>
 				<div className="skus-flex">
 					{product.skus?.map((sku) => (
-						<SkuName action={() => handleSkuChange(sku)} name={sku.name} />
+						<SkuName
+							isSkuSelected={skuSelected?.code === sku.code}
+							key={sku.code}
+							action={() => handleSkuChange(sku)}
+							name={sku.name}
+						/>
 					))}
 				</div>
 			</section>
 
 			<section className="skus-flex m-top">
 				<LockButton />
-				<AddToCartButton />
+				<AddToCartButton brand={product.brand} />
 			</section>
 		</div>
 	);
